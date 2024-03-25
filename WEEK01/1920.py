@@ -10,7 +10,7 @@ def binary_search(target:int, data:list):
     #data.sort() 함수 호출마다 정렬하면 안 됨
     start = 0
     end = len(data)-1
-    while start<=end: #start<=end면 탐색이 끝남
+    while start<=end: #start>=end면 탐색이 끝남
         mid = (start+end)//2
         if data[mid] == target: #일치, 찾음
             return 1
