@@ -12,11 +12,10 @@ def dfs(x:int, y:int, rain_area:list):
         dfs(x, y+1, rain_area)
         return True
     return False
+# max_value = max(map(max, areas)) #map함수로 2차원 배열에서 최대값 구하기
 
 def find_max(areas:list, rain: int):
     temp = deepcopy(areas)
-    #temp = deepcopy(main): 불변형 객체(list)는 그대로 가져오고 변형 객체(temp)는 새로운 공간에 값을 복사하여 가져옴, 즉 둘은 같은 값을 가진 완전히 다른 객체가 되는 것
-    #그냥 copy를 사용하면 temp를 수정해도 main에 반영은 되지 않지만 두 객체 안에 존재는 원소는 같은 특징을 가지고 있기 때문에 deepcopy를 사용함
     sum=0
     for i in range(N):
         for j in range(N):
