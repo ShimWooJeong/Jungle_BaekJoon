@@ -90,21 +90,22 @@ class BST:
         #부모의 왼쪽에 있었다면, 왼쪽 브랜치로 연결해야 하고
         #부모의 오른쪽에 있었다면, 오른쪽 브랜치로 연결해야 함        
         elif current_node.left == None or current_node.right == None:
-            if parent_node.value <= value: #부모값보다 크다면 오른쪽에 있었던 거니까 부모의 오른쪽이 가리키도록
+            if parent_node.value < value: #부모값보다 크다면 오른쪽에 있었던 거니까 부모의 오른쪽이 가리키도록
                 if current_node.left == None: #삭제하려는 값이 오른쪽 자식을 갖고 있음
                     parent_node.right = current_node.right #부모 right가 그 자식을 가리키도록
-                    current_node.right = None #current의 right를 None처리 해주며 삭제됨
+                    #current_node.right = None #current의 right를 None처리 해주며 삭제됨
                 elif current_node.right == None: #삭제하려는 값이 왼쪽 자식을 갖고 있음
                     parent_node.right = current_node.left
-                    current_node.left = None #current의 left를 None처리 해주며 삭제됨
+                    #current_node.left = None #current의 left를 None처리 해주며 삭제됨
             else: #부모값보다 작다면 왼쪽에 있었던 거니까 부모의 왼쪽이 가리키도록
                 if current_node.left == None: #오른쪽 자식만 갖고 있음
                     parent_node.left = current_node.right
-                    current_node.right = None
+                    #current_node.right = None
                 else: #왼쪽 자식만 갖고 있음
                     parent_node.left = current_node.left
-                    current_node.left = None
-
+                    #current_node.left = None
+            del(current_node)
+            return
         #Case3) 자식을 두 개 갖고 있는 경우
         #-> 삭제하려는 노드의 value를 기준으로 Lmax(왼쪽 서브트리의 최댓값) or Rmin(오른쪽 서브트리의 최솟값)을 구함 = 여기선 그냥 Rmin으로 했음
         #삭제하려는 값의 부모 노드가 해당 Rmin을 가리키도록(current_parent->Rmin)
@@ -120,27 +121,23 @@ class BST:
                 Rmin_node = Rmin_parent_node.left #왼쪽 값으로 Rmin을 이동하면서 기존 Rmin은 부모가 됨
                 #Rmin_parent_node = temp 
             #while문 벗어나면 Rmin_node가 오른쪽 서브트리의 최솟값이 됨
-            
             if parent_node.value < value: #삭제 노드가 부모 노드보다 큰 경우, 오른쪽 연결
                 parent_node.right = Rmin_node
             else: #삭제 노드가 부모 노드보다 작은 경우, 왼쪽 연결
                 parent_node.left = Rmin_node
 
-            
             if Rmin_node.left == None and Rmin_node.right == None: #Rmin이 자식이 없는 경우
                 Rmin_parent_node.left = None #Rmin/Rmin_parent 연결 관계 끊기
                 Rmin_node.left = current_node.left #Rmin에 삭제 노드 왼/오 연결
                 Rmin_node.right = current_node.right
             elif Rmin_node.left == None and Rmin_node.right != None: #Rmin이 오른쪽 자식이 있는 경우
-                Rmin_parent_node.left = None #Rmin/Rmin_parent 연결 관계 끊기
+                #Rmin_parent_node.left = None #Rmin/Rmin_parent 연결 관계 끊기
                 Rmin_node.left = current_node.left #Rmin에 삭제 노드 왼/오 연결
                 Rmin_node.right = current_node.right
-                Rmin_parent_node.left = Rmin_node.right
                 #Rmin의 오른쪽 자식을 Rmin의 부모 노드 왼쪽에 붙여주기
                 #어차피 Rmin이 parent보다 작으니까 왼쪽에 붙여줘야함
 
-            
-            del(current_node)
+            del(current_node) #삭제 노드 제거
             return
     
     def inorder(self):
@@ -161,7 +158,7 @@ class BST:
     def preorder(self):
         stack = []
         current_node = self.root
-
+ 
         while((current_node != None) or (len(stack) != 0)):
             if current_node != None:
                 print(current_node.value, end=' ')
@@ -169,7 +166,7 @@ class BST:
                 current_node = current_node.left
             else:
                 parent_node = stack.pop()
-                current_node = parent_node.right
+                current_node = parent_node.right 
 
 
 
@@ -181,15 +178,14 @@ bst.insert(4)
 bst.insert(3)
 bst.insert(5)
 bst.insert(8)
-bst.insert(11)
 bst.insert(7)
+bst.insert(11)
 bst.insert(10)
 bst.insert(9)
 #bst.inorder()
 # print('preorder: ', end=' ')
-bst.delete(1)
-bst.delete(10)
 bst.delete(8)
+#bst.delete(8)
 print('preorder: ', end=' ')
 bst.preorder()
 print('\ninorder: ', end=' ')
