@@ -13,5 +13,5 @@ for _ in range(E):
 visit = [False] * (V+1)
 q = deque()
 
-def DFS(graph, node):
+#sdef DFS(graph, node):
     
