@@ -6,18 +6,21 @@ string_B = ' '+sys.stdin.readline().rstrip() #문자열 앞에 빈 문자열을 
 print(string_A)
 print(string_B)
 
-dp = [[0] * len(string_B) for _ in range(len(string_A))]
+dp = [[0] * (len(string_B)) for _ in range(len(string_A))]
 #0으로 채워진 dp 리스트 생성
+#원래는 첫 행/열에 padding=0으로 설정해주기 위해 len()+1 해주는데
+#애초에 입력 받을 때 앞에 빈 문자열' ' 추가해줬으니 안 해줘도 됨
 
-for i in range(1, len(string_B)):
-    for j in range(1, len(string_A)):
+for i in range(1, len(string_A)): #i랑 j값 주의하기!!
+    for j in range(1, len(string_B)):
         if i==0 or j==0: #padding값 설정 부분인데, 사실 선언할 때 이미 0으로 채워지도록 리스트를 생성했기 때문에
             dp[i][j] = 0 #이 조건문은 필요하진 않음
-        elif string_A[j] == string_B[i]: #문자열이 똑같다면
+        elif string_A[i] == string_B[j]: #문자열이 똑같다면
             dp[i][j] = dp[i-1][j-1]+1
         else: #문자열이 다르다면
             dp[i][j] = max(dp[i-1][j], dp[i][j-1])
-        
+
+print(*dp, sep='\n')
 print(dp[-1][-1])
 # print()
 # print(*dp, sep='\n')
